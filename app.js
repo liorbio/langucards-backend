@@ -1,17 +1,16 @@
-require('dotenv').config();
-//const password = process.env.MONGO_PASSWORD;
-
 const express = require('express');
 
 const bodyParser = require('body-parser');
 
-const routes = require('./routes/routes');
+const publicRoutes = require('./routes/public_routes');
+const protectedRoutes = require('./routes/protected_routes');
 
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-routes(app);
+publicRoutes(app);
+protectedRoutes(app);
 
 module.exports = app;

@@ -1,3 +1,6 @@
+const dotenv = require('dotenv');
+dotenv.config();
+
 const mongoUrl = `mongodb+srv://lior-langucards:${process.env.MONGO_PWD}@langucluster.6ughsxr.mongodb.net/?retryWrites=true&w=majority`
 
 const connectMongoose = async (mongoose = require("mongoose")) => {
@@ -5,7 +8,7 @@ const connectMongoose = async (mongoose = require("mongoose")) => {
         await mongoose.disconnect();
 
         mongoose.connect(
-            `mongodb+srv://admin-lior:${password}@cluster0.nxgw1.mongodb.net/idfChamp?retryWrites=true&w=majority`,
+            mongoUrl,
             {
                 useNewUrlParser: true,
                 useUnifiedTopology: true
