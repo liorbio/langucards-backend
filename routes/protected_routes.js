@@ -14,18 +14,20 @@ const authMiddleware = (req, res, next) => {
 }
 
 const UserController = require('../controllers/user_controller');
+const LearningBoxController = require('../controllers/learningbox_controller');
 const PacketController = require('../controllers/packet_controller');
-const CardController = require('../controllers/card_controller');
 
 module.exports = (app) => {
-    app.get('/packets', authMiddleware, PacketController.getPackets);
-    app.post('/packets', authMiddleware, PacketController.createPacket);
+    app.get('/packets', authMiddleware, LearningBoxController.getPackets);
+    app.post('/packets', authMiddleware, LearningBoxController.createPacket);
     
-    app.get('/:packet-id/cards', authMiddleware, CardController.getCards);
-    app.get('/:packet-id/langucard', authMiddleware, CardController.getCardInfo);
-    app.post('/:packet-id/langucard', authMiddleware, CardController.addCard)
-    app.put('/:packet-id/langucard', authMiddleware, CardController.editCard);
-    app.delete('/:packet-id/langucard', authMiddleware, CardController.deleteCard);
+    app.get('/packets/:packetid/dialects', authMiddleware, PacketController.getDialectsInPacket);
+    app.get('/packets/:packetid/tags', authMiddleware, PacketController.getTagsInPacket)
+    app.get('/packets/:packetid/cards', authMiddleware, PacketController.getCardsInPacket);
+    app.get('/packets/:packetid/langucard', authMiddleware, PacketController.getCardInfo);
+    app.post('/packets/:packetid/langucard', authMiddleware, PacketController.addCard)
+    app.put('/packets/:packetid/langucard', authMiddleware, PacketController.editCard);
+    app.delete('/packets/:packetid/langucard', authMiddleware, PacketController.deleteCard);
 
     app.get('/logout', authMiddleware, UserController.logoutUser);
     app.post('/change-passowrd', authMiddleware, UserController.changePassword);

@@ -14,8 +14,13 @@ const languCardSchema = new Schema({
     exampleUsage: String,
     tags: [String],
     needsRevision: Boolean,
+    related: String,
     dialect: String,
-    memorization: Number
+    memorization: Number,
+    date: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 module.exports = {

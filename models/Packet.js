@@ -12,7 +12,9 @@ const packetSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    cards: [languCardSchema]
+    cards: [languCardSchema],
+    dialects: [String],
+    tags: [String]
 });
 
 module.exports = {
