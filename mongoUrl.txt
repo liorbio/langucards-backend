@@ -1,1 +1,0 @@
-`mongodb+srv://lior-langucards:${process.env.MONGO_PWD}@langucluster.6ughsxr.mongodb.net/?retryWrites=true&w=majority`

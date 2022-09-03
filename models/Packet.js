@@ -1,23 +1,23 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const { languCardSchema } = require('./LanguCard');
+const { languCardSchema } = require("./LanguCard");
 
 const packetSchema = new Schema({
     language: {
         type: String,
-        required: true
+        required: true,
     },
     writingDir: "ltr" | "rtl",
     dateCreated: {
         type: Date,
-        default: Date.now
+        default: Date.now,
     },
     cards: [languCardSchema],
     dialects: [String],
-    tags: [String]
+    tags: [String],
 });
 
 module.exports = {
-    Packet: mongoose.model('Packet', packetSchema),
-    packetSchema: packetSchema
+    Packet: mongoose.model("Packet", packetSchema),
+    packetSchema: packetSchema,
 };

@@ -4,7 +4,8 @@
   "description": "back-end for LanguCards",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "test": "mocha test/*.js"
   },
   "author": "Lior Koren",
   "license": "ISC",
@@ -17,5 +18,10 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.5.2",
     "nodemon": "^2.0.19"
+  },
+  "devDependencies": {
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
+    "mocha": "^10.0.0"
   }
 }
