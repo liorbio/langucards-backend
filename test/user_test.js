@@ -74,6 +74,7 @@ describe("User registration and login", function () {
     it("Gets specific card's info", function (done) {});
     it("Edits card", function (done) {});
     it("Deletes card", function (done) {});
+    it("Changes packet details", function (done) {});
     it("Deletes packet", function (done) {});
 
     it("Logs user out", function (done) {

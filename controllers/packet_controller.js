@@ -7,10 +7,50 @@ module.exports = {
     async getDialectsInPacket(req, res) {
         // USE THIS FOR GETTING Dialects IN "more filters"
         // GET path: '/packets/:packetid/dialects'
+        try {
+            const userDialects = await User.aggregate([
+                {
+                    $match: { _id: mongoose.Types.ObjectId(req.userInfo._id) },
+                },
+                {
+                    $unwind: "$packets",
+                },
+                {
+                    $match: { "packets._id": mongoose.Types.ObjectId(req.params.packetid) },
+                },
+                {
+                    $project: { "packets.dialects": 1 },
+                },
+            ]);
+            const dialects = userDialects[0].packets.dialects;
+            res.status(200).send(dialects);
+        } catch (error) {
+            res.status(400).send(`Error fetching dialects in packet: ${error}`);
+        }
     },
     async getTagsInPacket(req, res) {
         // USE THIS FOR GETTING Tags IN "more filters"
         // GET path: '/packets/:packetid/tags'
+        try {
+            const userDialects = await User.aggregate([
+                {
+                    $match: { _id: mongoose.Types.ObjectId(req.userInfo._id) },
+                },
+                {
+                    $unwind: "$packets",
+                },
+                {
+                    $match: { "packets._id": mongoose.Types.ObjectId(req.params.packetid) },
+                },
+                {
+                    $project: { "packets.tags": 1 },
+                },
+            ]);
+            const tags = userDialects[0].packets.tags;
+            res.status(200).send(tags);
+        } catch (error) {
+            res.status(400).send(`Error fetching tags in packet: ${error}`);
+        }
     },
     async getCardsInPacket(req, res) {
         // GET path: '/packets/:packetid/cards?sort=date&posfilter=n;v;adj'

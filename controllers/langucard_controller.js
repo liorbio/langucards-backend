@@ -73,8 +73,55 @@ module.exports = {
     },
     async editCard(req, res) {
         // PUT path: /packets/:packetid/:langucardid
+        const card = new LanguCard({
+            term: req.body.term,
+            definition: req.body.definition,
+            pos: req.body.pos,
+            example: req.body.example,
+            tags: req.body.tags,
+            needsRevision: req.body.needsRevision,
+            dialect: req.body.dialect,
+            related: req.body.related,
+            memorization: req.body.memorization,
+        });
+
+        let dialectAndTagsAddition = {};
+        if (req.body.dialect) {
+            dialectAndTagsAddition["packets.$[p].dialects"] = req.body.dialect;
+        }
+        if (req.body.tags) {
+            dialectAndTagsAddition["packets.$[p].tags"] = { $each: req.body.tags };
+        }
+
+        try {
+            await User.findByIdAndUpdate(
+                req.userInfo._id,
+                {
+                    $set: { "packets.$[p].cards.$[c]": card },
+                    $addToSet: dialectAndTagsAddition,
+                },
+                { arrayFilters: [{ "p._id": req.params.packetid }, { "c._id": req.params.langucardid }] }
+            );
+            res.status(200).send("Card edited successfully!");
+        } catch (error) {
+            res.status(400).send("Card edit failure: ", error);
+        }
     },
     async deleteCard(req, res) {
         // DELETE path: /packets/:packetid/:langucardid
+        try {
+            await User.findByIdAndUpdate(
+                req.userInfo._id,
+                {
+                    $pull: { "packets.$[p].cards": { _id: mongoose.Types.ObjectId(req.params.langucardid) } },
+                },
+                {
+                    arrayFilters: [{ "p._id": req.params.packetid }],
+                }
+            );
+            res.status(200).send("Card deleted successfully!");
+        } catch (error) {
+            res.status(400).send(`Error deleting card: ${error}`);
+        }
     },
 };

@@ -15,7 +15,7 @@ module.exports = (app) => {
     //app.options('*', cors(corsOptionsDelegate), (req, res) => { res.setHeader("Content-Type", "application/json"); res.sendStatus(200); });
 
     app.post("/register", UserController.createUser); // req.body: { email, password }
-    app.post("/login", UserController.authenticateUser); // req.body: { email, password } res['auth-token']
+    app.post("/login", UserController.authenticateUser); // req.body: { email, password } res.body: { authToken }
 
     // THINK OF API ENDPOINT ORGANIZATION
 };
