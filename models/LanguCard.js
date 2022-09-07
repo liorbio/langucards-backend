@@ -1,15 +1,12 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const languCardSchema = new Schema({
     term: {
         type: String,
-        required: true
+        required: true,
     },
-    definition: {
-        type: String,
-        required: true
-    },
+    definition: String,
     pos: String,
     exampleUsage: String,
     tags: [String],
@@ -19,11 +16,11 @@ const languCardSchema = new Schema({
     memorization: Number,
     date: {
         type: Date,
-        default: Date.now
-    }
+        default: Date.now,
+    },
 });
 
 module.exports = {
-    LanguCard: mongoose.model('LanguCard', languCardSchema),
-    languCardSchema: languCardSchema
+    LanguCard: mongoose.model("LanguCard", languCardSchema),
+    languCardSchema: languCardSchema,
 };

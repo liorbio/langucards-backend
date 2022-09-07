@@ -79,4 +79,20 @@ module.exports = {
             res.status(400).send("Error changing password: ", error);
         }
     },
+    async deleteUser(req, res) {
+        try {
+            // check email for reassurance:
+            const user = await User.findOne({ email: req.body.email });
+            if (!user) return res.status(400).send("Email or password wrong!");
+
+            // check password for reassurance:
+            const validPassword = await bcrypt.compare(req.body.password, user.password);
+            if (!validPassword) return res.status(400).send("Email or password wrong!");
+
+            await User.findByIdAndDelete(req.userInfo._id);
+            res.status(200).send("User deleted successfully!");
+        } catch (error) {
+            res.status(400).send(`User deletion failed: ${error}`);
+        }
+    },
 };

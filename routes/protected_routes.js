@@ -37,4 +37,5 @@ module.exports = (app) => {
 
     app.get("/logout", authMiddleware, UserController.logoutUser);
     app.post("/change-password", authMiddleware, UserController.changePassword);
+    app.delete("/delete-user", authMiddleware, UserController.deleteUser);
 };

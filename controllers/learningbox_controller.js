@@ -7,7 +7,7 @@ const { Packet } = require("../models/Packet");
 module.exports = {
     async createPacket(req, res) {
         if (!req.body.language | !req.body.writingDir) {
-            return res.status(400).send("Failure adding packet: no language or writing direction specified");
+            return res.status(400).send("Failure adding packet: language or writing direction not specified");
         }
         const newPacket = new Packet({
             language: req.body.language,

@@ -102,7 +102,7 @@ module.exports = {
                 },
                 { arrayFilters: [{ "p._id": req.params.packetid }, { "c._id": req.params.langucardid }] }
             );
-            res.status(200).send("Card edited successfully!");
+            res.status(200).send(card);
         } catch (error) {
             res.status(400).send("Card edit failure: ", error);
         }
