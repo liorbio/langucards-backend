@@ -36,6 +36,7 @@ module.exports = (app) => {
     app.delete("/packets/:packetid/:langucardid", authMiddleware, LanguCardController.deleteCard);
 
     app.get("/logout", authMiddleware, UserController.logoutUser);
+    app.get("/seen-tutorial", authMiddleware, UserController.markSeenTutorial);
     app.post("/change-password", authMiddleware, UserController.changePassword);
     app.delete("/delete-user", authMiddleware, UserController.deleteUser);
 };

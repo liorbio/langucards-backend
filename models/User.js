@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const { packetSchema } = require('./Packet');
+const { packetSchema } = require("./Packet");
 
 const userSchema = new Schema({
     email: {
@@ -8,23 +8,24 @@ const userSchema = new Schema({
         required: true,
         unique: true,
         max: 255,
-        min: 6
+        min: 6,
     },
     password: {
         type: String,
         required: true,
         max: 1024,
-        min: 6
+        min: 6,
     },
     dateJoined: {
         type: Date,
-        default: Date.now
+        default: Date.now,
     },
     loggedIn: {
         type: Boolean,
-        default: false
+        default: false,
     },
-    packets: [packetSchema]
+    packets: [packetSchema],
+    seenTutorial: Boolean,
 });
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model("User", userSchema);

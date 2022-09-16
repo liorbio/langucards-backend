@@ -16,6 +16,7 @@ module.exports = {
             email: req.body.email,
             password: hashedPassword,
             packets: [],
+            seenTutorial: false,
         });
 
         try {
@@ -26,6 +27,8 @@ module.exports = {
         }
     },
     async authenticateUser(req, res) {
+        const EXPIRE_TOKEN_IN = 8; // 8 hours till JWT expires
+
         try {
             // check if email registered:
             const user = await User.findOne({ email: req.body.email });
@@ -39,15 +42,30 @@ module.exports = {
             await User.findOneAndUpdate({ _id: user._id }, { loggedIn: true });
 
             // create JWT and send it:
-            const token = jwt.sign({ _id: user._id }, process.env.JWT_TOKEN_SECRET);
+            let token;
+            let expiryDate = null;
+            if (req.body.rememberMe) {
+                token = jwt.sign({ _id: user._id }, process.env.JWT_TOKEN_SECRET);
+            } else {
+                token = jwt.sign({ _id: user._id }, process.env.JWT_TOKEN_SECRET, { expiresIn: `${EXPIRE_TOKEN_IN}h` });
+                expiryDate = new Date().getTime() + EXPIRE_TOKEN_IN * 60 * 60 * 1000;
+            }
 
-            res.status(200).send({ authToken: token });
+            res.status(200).send({ authToken: token, expiryDate: expiryDate, seenTutorial: user.seenTutorial });
         } catch (error) {
             res.status(400).send("MongoDB error - Unable to find user even though password is correct: ", error);
         }
     },
 
     // protected routes:
+    async markSeenTutorial(req, res) {
+        try {
+            await User.findByIdAndUpdate(req.userInfo._id, { seenTutorial: true });
+            res.status(200).send("Successfully marked 'seen tutorial'");
+        } catch (error) {
+            res.status(400).send("Error marking 'seen tutorial': ", error);
+        }
+    },
     async logoutUser(req, res) {
         try {
             // update DB that user's loggedIn field is false:
