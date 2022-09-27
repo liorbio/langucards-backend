@@ -26,8 +26,9 @@ module.exports = (app) => {
     app.put("/packets/:packetid", authMiddleware, LearningBoxController.changePacketDetails); // req.body { language AND/OR writingDir }
     app.delete("/packets/:packetid", authMiddleware, LearningBoxController.deletePacket);
 
-    app.get("/packets/:packetid/dialects", authMiddleware, PacketController.getDialectsInPacket);
-    app.get("/packets/:packetid/tags", authMiddleware, PacketController.getTagsInPacket);
+    app.get("/packets/:packetid/dialects", authMiddleware, PacketController.getDialectsInPacket); // unused
+    app.get("/packets/:packetid/tags", authMiddleware, PacketController.getTagsInPacket); // unused
+    app.get("/packets/:packetid/tags-and-dialects", authMiddleware, PacketController.getTagsAndDialectsInPacket);
     app.get("/packets/:packetid/cards", authMiddleware, PacketController.getCardsInPacket); // SEE getCardsInPacket definition for more details. ?sort=date&posfilter=n;v;adj
 
     app.get("/packets/:packetid/:langucardid", authMiddleware, LanguCardController.getCardInfo);
