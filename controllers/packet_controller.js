@@ -94,13 +94,11 @@ module.exports = {
         // memofilter: '1;2;4' | null
         // page: 0 | 1 | 2 | ...
         // sort: 'term', '-term', 'date', '-date'
-        console.dir(`NRFILTER: ${nrfilter} condition: ${!!parseInt(nrfilter)} `);
-        console.dir(!!parseInt(nrfilter) ? { needsRevision: true } : {});
 
         const optionalSearchAndFilter = [
             { $match: search ? { $or: [{ term: { $regex: search, $options: "i" } }, { definition: { $regex: search, $options: "i" } }] } : {} },
             { $match: posfilter ? { pos: { $in: posfilter.split(";") } } : {} },
-            { $match: !!parseInt(nrfilter) ? { needsRevision: true } : { needsRevision: { $in: [true, false] } } },
+            { $match: !!parseInt(nrfilter) ? { needsRevision: true } : {} },
             { $match: tagsfilter ? { tags: { $in: tagsfilter.split(";") } } : {} },
             { $match: diafilter ? { dialect: { $in: diafilter.split(";") } } : {} },
             { $match: memofilter ? { memorization: { $in: memofilter.split(";").map((s) => parseInt(s) - 1) } } : {} },

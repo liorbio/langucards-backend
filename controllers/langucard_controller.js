@@ -2,11 +2,21 @@ const mongoose = require("mongoose");
 const { LanguCard } = require("../models/LanguCard");
 const User = require("../models/User");
 
+function createFieldsToUpdate(obj) {
+    const output = { "packets.$[p].cards.$[c].term": obj.term };
+    for (let key in obj) {
+        const keyString = `packets.$[p].cards.$[c].${key}`;
+        output[keyString] = obj[key];
+    }
+    return output;
+}
+
 module.exports = {
     async addCard(req, res) {
         // POST path: 'packets/:packetid/langucard'
         // get user credentials + packetId + cardInfo
         // save cardInfo under liorUser-->arabicPacket
+        console.log(`EXAMPLE IS: ${req.body.example}`);
         const card = new LanguCard({
             term: req.body.term,
             definition: req.body.definition,
@@ -73,18 +83,6 @@ module.exports = {
     },
     async editCard(req, res) {
         // PUT path: /packets/:packetid/:langucardid
-        const card = new LanguCard({
-            term: req.body.term,
-            definition: req.body.definition,
-            pos: req.body.pos,
-            example: req.body.example,
-            tags: req.body.tags,
-            needsRevision: req.body.needsRevision,
-            dialect: req.body.dialect,
-            related: req.body.related,
-            memorization: req.body.memorization,
-        });
-
         let dialectAndTagsAddition = {};
         if (req.body.dialect) {
             dialectAndTagsAddition["packets.$[p].dialects"] = req.body.dialect;
@@ -97,12 +95,12 @@ module.exports = {
             await User.findByIdAndUpdate(
                 req.userInfo._id,
                 {
-                    $set: { "packets.$[p].cards.$[c]": card },
+                    $set: createFieldsToUpdate(req.body),
                     $addToSet: dialectAndTagsAddition,
                 },
                 { arrayFilters: [{ "p._id": req.params.packetid }, { "c._id": req.params.langucardid }] }
             );
-            res.status(200).send(card);
+            res.status(200).send("Success updating card!");
         } catch (error) {
             res.status(400).send("Card edit failure: ", error);
         }

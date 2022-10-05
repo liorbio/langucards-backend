@@ -8,7 +8,7 @@ const languCardSchema = new Schema({
     },
     definition: String,
     pos: String,
-    exampleUsage: String,
+    example: String,
     tags: [String],
     needsRevision: Boolean,
     related: String,
