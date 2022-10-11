@@ -16,7 +16,6 @@ module.exports = {
         // POST path: 'packets/:packetid/langucard'
         // get user credentials + packetId + cardInfo
         // save cardInfo under liorUser-->arabicPacket
-        console.log(`EXAMPLE IS: ${req.body.example}`);
         const card = new LanguCard({
             term: req.body.term,
             definition: req.body.definition,

@@ -23,7 +23,7 @@ module.exports = {
     },
     async getPackets(req, res) {
         try {
-            const userPackets = await User.findById(req.userInfo._id, { "packets.language": 1, "packets._id": 1 });
+            const userPackets = await User.findById(req.userInfo._id, { "packets.language": 1, "packets._id": 1, "packets.writingDir": 1 });
 
             const packetsArray = userPackets.packets;
 
