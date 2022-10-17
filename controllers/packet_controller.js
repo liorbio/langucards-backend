@@ -112,7 +112,7 @@ module.exports = {
                 { $unwind: "$packets.cards" }, // allow for accessing subfields in each card - now every obj is { userId, packets: packetId, cards: CARD }
                 { $replaceWith: "$packets.cards" }, // eliminate top-level fields and get only the packets.cards field so that we have { CARD }
                 ...optionalSearchAndFilter,
-                { $project: { term: 1, definition: 1, pos: 1, needsRevision: 1, date: 1 } },
+                /* { $project: { term: 1, definition: 1, pos: 1, needsRevision: 1, date: 1 } },*/ // Commenting this out since I postulate that getting all fields isn't that heavy on the network
             ])
                 .sort(sort)
                 .skip(page * 30)
